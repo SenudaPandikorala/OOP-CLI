@@ -1,8 +1,12 @@
 package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class Configuration {
@@ -67,7 +71,7 @@ public class Configuration {
 
     public boolean validate(){
         if(totalTickets <= 0){
-            System.out.println("total tickets must be greater that 0");
+            System.out.println("total tickets must be greater than 0");
             return false;
         }
         if(ticketReleaseRate <= 0){
@@ -93,15 +97,21 @@ public class Configuration {
     //method to save configuration to a Json file
 
     public void saveToFile(String fileName) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.writeValue(new File(fileName), this);
+        File file = new File (fileName);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        try (FileWriter writer = new FileWriter(file)){
+            gson.toJson(this, writer);
+        }
     }
 
     //method to load configuration from a json file
 
     public static Configuration loadFromFile(String fileName) throws IOException {
-        ObjectMapper mapper = new ObjectMapper();
-        return mapper.readValue(new File(fileName), Configuration.class);
+        Gson gson = new Gson();
+        try (FileReader reader = new FileReader(fileName)){
+            return gson.fromJson(reader,Configuration.class);
+        }
+
     }
 
     //to string method to display the parameters

@@ -24,7 +24,7 @@ public class TicketPool {
         }
         this.ticketQueue.add(ticket);
         notifyAll(); //calling this method to notify all the threads that a ticket is available
-        System.out.println(Thread.currentThread().getName()+ "has added a ticket to the ticket pool. Current size is" + ticketQueue.size());
+        System.out.println(Thread.currentThread().getName()+ "has added a ticket to the ticket pool. Current size is =" + ticketQueue.size());
 
 //        if (tickets.size()+ count <= maxCapacity) {
 //            for (int i = 0; i < count; i++) {
@@ -47,7 +47,7 @@ public class TicketPool {
             }
         }
         Ticket ticket = ticketQueue.poll(); //To remove the ticket from the front of the queue
-        System.out.println(Thread.currentThread().getName()+ "has purchased a ticket from the ticket pool. Current size is"+ ticketQueue.size());
+        System.out.println(Thread.currentThread().getName()+ "has purchased a ticket from the ticket pool. Current size is ="+ ticketQueue.size());
         return ticket;
 
 //        if(!tickets.isEmpty()){

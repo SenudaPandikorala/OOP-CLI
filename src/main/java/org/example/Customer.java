@@ -21,7 +21,7 @@ public class Customer implements Runnable {
         for (int i =0; i<quantity; i++){
             Ticket ticket = ticketPool.buyTicket();
             //details of the ticket
-            System.out.println("Tickets bought by"+ Thread.currentThread().getName()+ "Ticket is" + ticket);
+            System.out.println("Tickets bought by : "+ Thread.currentThread().getName()+ "Ticket is =" + ticket);
 
             //ticket removing delay
             try{
