@@ -1,18 +1,54 @@
 package org.example;
 
+import java.util.Scanner;
+import java.util.logging.*;
+
 public class Main {
     public static void main(String[] args) {
+        Scanner userInput = new Scanner(System.in);
+        Configuration config = null;
+
+        LoggerUtil.setupLogging();
+
+
+        //looping until all configuration are valid
+        while (true) {
+
+            System.out.println("Welcome to the real time ticket management simulation!!");
+
+            System.out.println("Enter the configuration details below");
+
+            //Collecting the user inputs while validating
+
+
+            int totalTickets = getValidatedInteger(userInput, "Enter total number of tickets:");
+            int ticketReleaseRate = getValidatedInteger(userInput, "Enter ticket release rate:");
+            int customerRetrievalRate = getValidatedInteger(userInput, "Enter customer retrieval rate:");
+            int maxTicketCapacity = getValidatedInteger(userInput, "Enter maximum ticket capacity:");
+
+
+
+            //creating a configuration object
+
+            config = new Configuration(totalTickets, ticketReleaseRate, customerRetrievalRate, maxTicketCapacity);
+
+            if (config.validate()) {
+                LoggerUtil.logInfo("Configuration is valid.");
+                break;
+            } else {
+                LoggerUtil.logWarning("Invalid configuration. Please re-enter the values.");
+            }
+        }
+
 
         String fileName = "config.json";//Name of the file
-
-        Configuration config = new Configuration(100,10,5,200);
 
         //saving configuration to json
         try {
             config.saveToFile(fileName);
-            System.out.println("Configuration saved to" + fileName);
+            LoggerUtil.logInfo("Configuration saved to" + fileName);
         }catch (Exception e){
-            System.err.println("Failed to save configuration"+ e.getMessage());
+            LoggerUtil.logSevere("Failed to save configuration"+ e.getMessage());
             return;
         }
 
@@ -21,9 +57,9 @@ public class Main {
 
         try{
             loadedConfig = Configuration.loadFromFile(fileName);
-            System.out.println("Configuration loaded: " + loadedConfig);
+            LoggerUtil.logInfo("Configuration loaded: " + loadedConfig);
         }catch (Exception e){
-            System.err.println("Failed to load configuration"+ e.getMessage());
+            LoggerUtil.logSevere("Failed to load configuration"+ e.getMessage());
 
             return;
         }
@@ -43,6 +79,27 @@ public class Main {
             Thread customerThread = new Thread(customers[i], "customer - "+ i);
             customerThread.start();
         }
+        userInput.close();
+//        LoggerUtil.closeLogFile();
 
     }
+    //Method to validate if a user input is an integer or if it is greater than 0
+    private static int getValidatedInteger(Scanner userInput, String prompt){
+        int value;
+        while (true){
+            System.out.print(prompt);
+            try{
+                value = Integer.parseInt(userInput.nextLine());
+                if (value >0){
+                    break; // Exits the loop if input is a valid integer greater than 0
+                } else {
+                    System.out.println("The value must be greater than 0. please try again.");
+                }
+            }catch (NumberFormatException e){
+                System.out.println("Invalid input. please enter a valid integer");
+            }
+        }
+        return value;
+    }
+
 }

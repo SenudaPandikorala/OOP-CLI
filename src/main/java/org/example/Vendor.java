@@ -1,9 +1,9 @@
 package org.example;
 
 import java.math.BigDecimal;
-import java.util.concurrent.TimeUnit;
 
-public class Vendor implements Runnable {
+
+public class Vendor extends AbstractTicketHandler implements Runnable {
 
     private TicketPool ticketPool; //ticket pool which is shared by the customer and vendors.
     private int vendorId;
@@ -11,6 +11,7 @@ public class Vendor implements Runnable {
     private int totalTickets; //number of tickets vendor willing to sell.
 
     public Vendor(int vendorId, TicketPool ticketPool, int ticketPerRelease, int totalTickets) {
+        super(ticketPool);
         this.vendorId = vendorId;
         this.ticketPool = ticketPool;
         this.ticketPerRelease = ticketPerRelease;
@@ -34,13 +35,6 @@ public class Vendor implements Runnable {
         return totalTickets;
     }
 
-//    public Vendor(int vendorId, int ticketPerRelease, int releaseInterval, TicketPool ticketPool) {
-//        super(ticketPool);
-//        this.vendorId = vendorId;
-//        this.ticketPerRelease = ticketPerRelease;
-//        this.releaseInterval = releaseInterval;
-//    }
-     //Implementing the thread
 
     @Override
     public void run() {
@@ -58,22 +52,12 @@ public class Vendor implements Runnable {
         }
 
 
-//        try {
-//            while(true){
-//                synchronized (ticketPool) {
-//                    ticketPool.addTicket(ticketPerRelease);
-//                }
-//                System.out.println("vendor" + vendorId + "added" + ticketPerRelease+ "tickets.");
-//                Thread.sleep(releaseInterval);
-//            }
-//
-//        }catch(InterruptedException e){
-//            System.out.println("Vendor" + vendorId + "interrupted");
-//            Thread.currentThread().interrupt();
-//        }
     }
 
 
+    @Override
+    public void handleTickets() {
+        run();
 
-
+    }
 }

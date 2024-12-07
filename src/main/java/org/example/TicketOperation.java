@@ -2,9 +2,12 @@ package org.example;
 
 public interface TicketOperation {
 
+    public void addTicket(Ticket ticket);
 
-    void addTickets(Ticket ticket);
-    String removeTicket();
+    public  Ticket buyTicket();
+
+
+
 
 
 }
