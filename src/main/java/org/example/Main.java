@@ -4,10 +4,11 @@ import java.util.Scanner;
 import java.util.logging.*;
 
 public class Main {
+    public static volatile boolean running= true;
     public static void main(String[] args) {
+
         Scanner userInput = new Scanner(System.in);
         Configuration config = null;
-
         LoggerUtil.setupLogging();
 
 
@@ -84,8 +85,9 @@ public class Main {
             customerThreads[i] = new Thread(customers[i], "customer - "+ i);
 //            customerThread.start();
         }
-        //looping the start
-        System.out.println("Enter 'start' to begin the simulation.");
+
+        //Creating the start option by looping
+        System.out.println("Enter 'start' to begin the simulation. When started, the simulation can be stopped by entering 'stop'");
         while (true) {
             String command = userInput.nextLine().trim().toLowerCase();
             if ("start".equals(command)){
@@ -102,10 +104,35 @@ public class Main {
                 System.out.println("Invalid command. Please enter start");
             }
         }
+        //Creating the stop option by looping
+        System.out.println("Enter 'stop' to terminate the simulation.");
+        while (true){
+            String command = userInput.nextLine().trim().toLowerCase();
+            if ("stop".equals(command)) {
+                LoggerUtil.logInfo("Stopping all threads");
+                running = false;
+                break;
+            }else {
+                System.out.println("please enter 'stop' to stop simulation");
+                }
+            }
+        // waiting for all the threads to complete
+        try{
+            for (Thread vendorThread : vendorThreads){
+                vendorThread.join();
+            }
+            for (Thread customerThread : customerThreads){
+                customerThread.join();
+            }
+        }catch (InterruptedException e) {
+            LoggerUtil.logSevere("Thread interruption"+ e.getMessage());
+        }
+        System.out.println("successfully terminated");
         userInput.close();
 
 
     }
+
     //Method to validate if a user input is an integer or if it is greater than 0
     private static int getValidatedInteger(Scanner userInput, String prompt){
         int value;

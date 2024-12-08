@@ -39,17 +39,28 @@ public class Vendor extends AbstractTicketHandler implements Runnable {
     @Override
     public void run() {
 
-        for (int i = 1; i <= totalTickets; i++){
 
-            Ticket ticket = new Ticket(i,"event agastra", new BigDecimal("1000"));
+        for (int i = 1; i <= totalTickets; i++) {
+
+            if (!Main.running) {
+                LoggerUtil.logInfo("Vendor " + vendorId + "stopped");
+                break;
+            }
+            //creating and adding a ticket to the pool
+            Ticket ticket = new Ticket(i, "event agastra", new BigDecimal("1000"));
             ticketPool.addTicket(ticket);
-        }
+            LoggerUtil.logInfo("Vendor " + vendorId + " added ticket:" + ticket);
 
-        try{
-            Thread.sleep(ticketPerRelease * 1000);
-        } catch (InterruptedException e){
-            throw new RuntimeException(e.getMessage());
+
+            try {
+                Thread.sleep(ticketPerRelease * 1000);
+            } catch (InterruptedException e) {
+                LoggerUtil.logWarning("Vendor " + vendorId + " interrupted:" + e.getMessage());
+                Thread.currentThread().interrupt();
+                break;
+            }
         }
+        LoggerUtil.logInfo("vendor " + vendorId + "finished releasing tickets");
 
 
     }

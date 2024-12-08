@@ -19,18 +19,31 @@ public class Customer extends AbstractTicketHandler implements Runnable {
     @Override
     public void run(){
         for (int i =0; i<quantity; i++){
+
+            if(!Main.running){
+                LoggerUtil.logInfo("Customer "+ customerId + " stopped");
+                break;
+            }
             Ticket ticket = ticketPool.buyTicket();
+
             //details of the ticket
-            LoggerUtil.logInfo(" Tickets bought by : "+ Thread.currentThread().getName()+ " Ticket is = " + ticket);
+            if (ticket !=null) {
+                LoggerUtil.logInfo(" Tickets bought by : " + Thread.currentThread().getName() + "Ticket is = " + ticket);
+            }else{
+                LoggerUtil.logWarning("Customer " + customerId + " customer could not purchase a ticket because the ticket pool is empty");
+            }
 
             //ticket removing delay
             try{
             Thread.sleep(customerRetrievalRate * 1000);
 
             }catch (InterruptedException e){
-                throw new RuntimeException(e);
+                LoggerUtil.logWarning("Customer " + customerId+ " interrupted" + e.getMessage());
+                Thread.currentThread().interrupt();
+                break;
             }
         }
+        LoggerUtil.logInfo("Customer " + customerId + " has finished purchasing tickets. ");
     }
 
 
