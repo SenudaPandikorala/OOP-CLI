@@ -67,20 +67,43 @@ public class Main {
         TicketPool ticketPool =new TicketPool(loadedConfig.getTotalTickets());
 
         Vendor[] vendors = new Vendor[10];
+        Thread[] vendorThreads = new Thread[vendors.length];
+
+
         for (int i = 0; i < vendors.length; i++) {
             vendors[i] = new Vendor(245,ticketPool, loadedConfig.getTicketReleaseRate(), 20);
-            Thread vendorThread = new Thread(vendors[i], "Vendor - "+ i);
-            vendorThread.start();
+            vendorThreads[i] = new Thread(vendors[i], "Vendor - "+ i);
+//            vendorThread.start();
         }
 
         Customer[] customers = new Customer[10];
+        Thread[] customerThreads = new Thread[customers.length];
+
         for (int i = 0; i < customers.length; i++) {
             customers[i] = new Customer(5,ticketPool,loadedConfig.getCustomerRetrievalRate(),5);
-            Thread customerThread = new Thread(customers[i], "customer - "+ i);
-            customerThread.start();
+            customerThreads[i] = new Thread(customers[i], "customer - "+ i);
+//            customerThread.start();
+        }
+        //looping the start
+        System.out.println("Enter 'start' to begin the simulation.");
+        while (true) {
+            String command = userInput.nextLine().trim().toLowerCase();
+            if ("start".equals(command)){
+                LoggerUtil.logInfo("Starting all threads");
+
+                for (Thread vendorThread : vendorThreads){
+                    vendorThread.start();
+                }
+                for (Thread customerThread : customerThreads){
+                    customerThread.start();
+                }
+                break;
+            } else {
+                System.out.println("Invalid command. Please enter start");
+            }
         }
         userInput.close();
-//        LoggerUtil.closeLogFile();
+
 
     }
     //Method to validate if a user input is an integer or if it is greater than 0

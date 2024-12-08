@@ -40,7 +40,7 @@ public class TicketPool implements TicketOperation {
             }
         }
         Ticket ticket = ticketQueue.poll(); //To remove the ticket from the front of the queue
-        LoggerUtil.logInfo(Thread.currentThread().getName()+" has purchased a ticket from the ticket pool. Current size is = "+ ticketQueue.size());
+        LoggerUtil.logInfo(Thread.currentThread().getName()+"  has purchased a ticket from the ticket pool. Current size is = "+ ticketQueue.size());
         return ticket;
 
 

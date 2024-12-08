@@ -38,7 +38,7 @@ public class LoggerUtil {
         }
     }
 
-    //Method to  log info messages to console and file
+    //Method to  log  messages to console and file
 
 
     public static void logInfo(String message){
@@ -73,16 +73,16 @@ public class LoggerUtil {
 
     // Method to close the file writer
 
-    public static void closeLogFile() {
-        try {
-            if(fileWriter != null) {
-                fileWriter.close();
-            }
-        }catch (IOException e){
-
-            logger.severe("Failed to close log file:" + e.getMessage());
-        }
-    }
+//    public static void closeLogFile() {
+//        try {
+//            if(fileWriter != null) {
+//                fileWriter.close();
+//            }
+//        }catch (IOException e){
+//
+//            logger.severe("Failed to close log file:" + e.getMessage());
+//        }
+//    }
 
     private static void removeExistingHandlers(){
         var handlers = logger.getHandlers();

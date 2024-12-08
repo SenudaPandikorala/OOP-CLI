@@ -71,24 +71,24 @@ public class Configuration {
 
     public boolean validate(){
         if(totalTickets <= 0){
-            LoggerUtil.logWarning("total tickets must be greater than 0");
+            System.out.println("total tickets must be greater than 0");
             return false;
         }
         if(ticketReleaseRate <= 0){
-            LoggerUtil.logWarning("ticket release rate must be greater than 0");
+            System.out.println("ticket release rate must be greater than 0");
             return false;
         }
         if(customerRetrievalRate <= 0){
-            LoggerUtil.logWarning("customer retrieval rate must be greater than 0");
+            System.out.println("customer retrieval rate must be greater than 0");
             return false;
         }
 
         if(maxTicketCapacity <= 0){
-            LoggerUtil.logWarning("max ticket capacity must be greater than 0");
+            System.out.println("max ticket capacity must be greater than 0");
             return false;
         }
         if (totalTickets>maxTicketCapacity){
-            LoggerUtil.logWarning("total tickets must be less than max ticket capacity");
+            System.out.println("total tickets must be less than max ticket capacity");
             return false;
         }
         return true;
