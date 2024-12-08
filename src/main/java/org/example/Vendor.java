@@ -43,7 +43,7 @@ public class Vendor extends AbstractTicketHandler implements Runnable {
         for (int i = 1; i <= totalTickets; i++) {
 
             if (!Main.running) {
-                LoggerUtil.logInfo("Vendor " + vendorId + "stopped");
+                LoggerUtil.logInfo("Vendor " + vendorId + " stopped");
                 break;
             }
             //creating and adding a ticket to the pool
@@ -60,7 +60,7 @@ public class Vendor extends AbstractTicketHandler implements Runnable {
                 break;
             }
         }
-        LoggerUtil.logInfo("vendor " + vendorId + "finished releasing tickets");
+        LoggerUtil.logInfo("vendor " + vendorId + " finished releasing tickets");
 
 
     }

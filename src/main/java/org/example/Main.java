@@ -86,7 +86,7 @@ public class Main {
 //            customerThread.start();
         }
 
-        //Creating the start option by looping
+        //Creating the while loop for the start option
         System.out.println("Enter 'start' to begin the simulation. When started, the simulation can be stopped by entering 'stop'");
         while (true) {
             String command = userInput.nextLine().trim().toLowerCase();
@@ -104,8 +104,7 @@ public class Main {
                 System.out.println("Invalid command. Please enter start");
             }
         }
-        //Creating the stop option by looping
-        System.out.println("Enter 'stop' to terminate the simulation.");
+        //Creating the while loop for the stop option
         while (true){
             String command = userInput.nextLine().trim().toLowerCase();
             if ("stop".equals(command)) {
@@ -127,7 +126,7 @@ public class Main {
         }catch (InterruptedException e) {
             LoggerUtil.logSevere("Thread interruption"+ e.getMessage());
         }
-        System.out.println("successfully terminated");
+        System.out.println("successfully terminated simulation. To start again re-run the program");
         userInput.close();
 
 
